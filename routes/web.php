@@ -10,7 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-//是饿哦肉
 Route::get('/', function () {
     return view('welcome');
 //test push
