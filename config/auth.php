@@ -13,8 +13,13 @@ return [
     |
     */
 
+    // 'defaults' => [
+    //     'guard' => 'web',
+    //     'passwords' => 'users',
+    // ],
+
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'admin',
         'passwords' => 'users',
     ],
 
@@ -36,9 +41,13 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        // 'web' => [
+        //     'driver' => 'session',
+        //     'provider' => 'users',
+        // ],
+        'admin' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'manager',
         ],
 
         'api' => [
@@ -65,9 +74,13 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        // 'users' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\User::class,
+        // ],
+        'manager' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => App\Model\Manager::class,
         ],
 
         // 'users' => [
