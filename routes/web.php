@@ -10,7 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('welcome');
-//test push
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// //test push
+// });
+
+/*后台的路由集合*/
+Route::get('admin/public/login','Admin\PublicController@login')->name('login');
+Route::post('admin/public/check','Admin\PublicController@check')->name('admin_check_login');
