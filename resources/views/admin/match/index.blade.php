@@ -23,7 +23,7 @@
 <title>运动员管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 运动员管理 <span class="c-gray en">&gt;</span> 运动员列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 比赛管理 <span class="c-gray en">&gt;</span> 比赛列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c"> 日期范围：
 		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
@@ -32,21 +32,22 @@
 		<input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="" name="">
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加用户','{{route('player_add')}}','900','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加运动员</a></span> <span class="r">共有数据：<strong>{{count($data)}}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加比赛','{{route('match_add')}}','900','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加比赛</a></span> <span class="r">共有数据：<strong>{{count($data)}}</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="30">ID</th>
-				<th width="80">姓名</th>
-				<th width="50">性别</th>
-				<th width="50">年龄</th>
-				<th width="90">国籍</th>
-				<th width="80">执拍手</th>
-				<th width="100">直横拍</th>
-				<th width="100">打法</th>
-				<th width="140">图片</th>
+				<th width="80">比赛名称</th>
+				<th width="50">比赛日期</th>
+				<th width="50">比赛时间</th>
+				<th width="90">比赛阶段</th>
+				<th width="80">运动员A</th>
+				<th width="100">运动员B</th>
+				<th width="100">比赛项目</th>
+				<th width="140">比赛国家</th>
+				<th width="80">比赛城市</th>
 				<th width="80">操作</th>
 			</tr>
 		</thead>
@@ -55,19 +56,18 @@
 			<tr class="text-c">
 				<td><input type="checkbox" value="{{$val->id}}" name=""></td>
 				<td>{{$val->id}}</td>
-				<td>{{$val->name}}</td>
-				<td>{{$val->sex}}</td>
-				<td>{{$val->age}}</td>
+				<td>{{$val->math_name}}</td>
+				<td>{{$val->date}}</td>
+				<td>{{$val->time}}</td>
+				<td>{{$val->stage}}</td>
+				<td>{{$val->A_name}}</td>
+				<td>{{$val->B_name}}</td>
+				<td>{{$val->item}}</td>
 				<td>{{$val->nation}}</td>
-				<td>{{$val->hand}}</td>
-				<td>{{$val->ver_hor}}</td>
-				<td>{{$val->skill}}</td>
-				<td class="td-status">
-					<img src="{{$val->photo}}" width="64" alt="">
-				</td>
+				<td>{{$val->city}}</td>
 				<td class="td-manage">
-					<a title="编辑" href="javascript:;" onclick="member_edit('编辑','{{route("player_edit")}}'+'?id={{$val->id}}','','','')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-					<a title="删除" href="javascript:;" onclick="member_del(this,{{$val->id}})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+					<a title="编辑" href="javascript:;" onclick="match_edit('编辑','{{route("match_edit")}}'+'?id={{$val->id}}','','','')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+					<a title="删除" href="javascript:;" onclick="match_del(this,{{$val->id}})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 			</tr>
 			@endforeach
 		</tbody>
@@ -91,7 +91,7 @@ $(function(){
 		//"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,8,9,10]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,11]}// 制定列不参与排序
 		]
 	});
 	
@@ -144,26 +144,23 @@ function member_start(obj,id){
 	});
 }
 /*用户-编辑*/
-function member_edit(title,url,id,w,h){
+function match_edit(title,url,id,w,h){
 	layer_show(title,url,w,h);
 }
-/*密码-修改*/
-function change_password(title,url,id,w,h){
-	layer_show(title,url,w,h);	
-}
+
 /*用户-删除*/
-function member_del(obj,id){
+function match_del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
 			headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-			type: 'POST',
-			url: "{{route('player_del')}}"+"?id="+id,
+			type: 'GET',
+			url: "{{route('match_del')}}"+"?id="+id,
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();
-				layer.msg('已删除!',{icon:1,time:1000});
+				layer.msg(data.msg,{icon:1,time:1000});
 			},
 			error:function(data) {
 				console.log(data.msg);

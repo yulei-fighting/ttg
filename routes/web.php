@@ -27,5 +27,14 @@ Route::group(['prefix' => 'admin'],function(){
 
 	//后台运动员模块
 	Route::get('player/index','Admin\PlayerController@index')->name('player_index');
-	Route::get('player/add','Admin\PlayerController@add')->name('player_add');
+	Route::any('player/add','Admin\PlayerController@add')->name('player_add');
+	Route::post('player/del','Admin\PlayerController@del')->name('player_del');
+	Route::any('player/edit','Admin\PlayerController@edit')->name('player_edit');
+
+	//后台比赛管理模块
+	Route::get('match/index','Admin\MatchController@index')->name('match_index');
+	Route::any('match/add','Admin\MatchController@add')->name('match_add');
+	Route::get('match/del','Admin\MatchController@del')->name('match_del');
+	Route::any('match/edit','Admin\MatchController@edit')->name('match_edit');
+	Route::get('match/getPlayerB','Admin\MatchController@getPlayerB')->name('match_getPlayerB');
 });

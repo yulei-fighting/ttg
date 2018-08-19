@@ -37,24 +37,30 @@
     <article class="page-container">
         <form action="" method="post" class="form form-horizontal" id="form-member-add" enctype="multipart/form-data">
             <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>ID：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="{{$data->id}}" placeholder="" id="name" name="name" disabled>
+                </div>
+            </div>
+            <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>姓名：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="请输入姓名" id="name" name="name">
+                    <input type="text" class="input-text" value="{{$data->name}}" placeholder="" id="name" name="name">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
                 <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                     <div class="radio-box">
-                        <input name="sex" type="radio" value="1" id="gender-1" checked>
+                        <input name="sex" type="radio" value="1" id="gender-1" @if($data->sex=='男')checked @endif>
                         <label for="gender-1">男</label>
                     </div>
                     <div class="radio-box">
-                        <input type="radio" id="gender-2" value="2" name="sex">
+                        <input type="radio" id="gender-2" value="2" name="sex" @if($data->sex=='女')checked @endif>
                         <label for="gender-2">女</label>
                     </div>
                     <div class="radio-box">
-                        <input type="radio" id="gender-3" value="3" name="sex">
+                        <input type="radio" id="gender-3" value="3" name="sex" @if($data->sex=='保密')checked @endif>
                         <label for="gender-3">保密</label>
                     </div>
                 </div>
@@ -62,24 +68,24 @@
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>年龄：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="请输入年龄" id="age" name="age">
+                    <input type="text" class="input-text" value="{{$data->age}}" placeholder="" id="age" name="age">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>国籍：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="请输入国籍" id="nation" name="nation">
+                    <input type="text" class="input-text" value="{{$data->nation}}" placeholder="" id="nation" name="nation">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>执拍手：</label>
                 <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                     <div class="radio-box">
-                        <input name="hand" type="radio" value="1" id="gender-1">
+                        <input name="hand" type="radio" value="1" id="gender-1" @if($data->hand=='左手')checked @endif>
                         <label for="gender-1">左手</label>
                     </div>
                     <div class="radio-box">
-                        <input type="radio" id="gender-2" value="2" name="hand" checked>
+                        <input type="radio" id="gender-2" value="2" name="hand" @if($data->hand=='右手')checked @endif>
                         <label for="gender-2">右手</label>
                     </div>
                 </div>
@@ -88,11 +94,11 @@
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>直横拍：</label>
                 <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                     <div class="radio-box">
-                        <input name="ver_hor" type="radio" value="1" id="gender-1" checked>
+                        <input name="ver_hor" type="radio" value="1" id="gender-1" @if($data->ver_hor=='横拍')checked @endif>
                         <label for="gender-1">横拍</label>
                     </div>
                     <div class="radio-box">
-                        <input type="radio" id="gender-2" value="2" name="ver_hor">
+                        <input type="radio" id="gender-2" value="2" name="ver_hor" @if($data->ver_hor=='直拍')checked @endif>
                         <label for="gender-2">直拍</label>
                     </div>
                 </div>
@@ -100,7 +106,8 @@
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>打法：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" placeholder="请输入打法" name="skill" id="skill">
+                    <input type="text" class="input-text" placeholder="" name="skill" id="skill"
+                    value="{{$data->skill}}">
                 </div>
             </div>
 
@@ -115,7 +122,9 @@
                         <input type="hidden" name="avatar" id="avatar" value="">
                     </div>
                 -->
-                <input type="file" id="photo" name="photo">
+                <!-- <input type="file" id="photo" name="photo"> -->
+                    <img src="{{$data->photo}}" width="50" alt="">
+                    <input class="upload_img" type="file" id="photo" name="photo">
                 </div>
             </div>
             <!-- csrf验证 -->
@@ -150,66 +159,28 @@
             radioClass: 'iradio-blue',
             increaseArea: '20%'
         });
-
-    //     $("#form-member-add").validate({
-    //         rules: {
-    //             name: {
-    //                 required: true,
-    //                 minlength: 2,
-    //                 maxlength: 20
-    //             },
-    //             sex: {
-    //                 required: true,
-    //             },
-    //             age: {
-    //                 required: true,
-    //             },
-    //             nation: {
-    //                 required: true,
-    //             },
-    //             hand: {
-    //                 required: true,
-    //             },
-    //             ver_hor: {
-    //                 required: true,
-    //             },
-    //             skill: {
-    //                 required: true,
-    //             },
-    //             photo: {
-    //                 required: true,
-    //             },
-
-    //         },
-    //         onkeyup: false,
-    //         focusCleanup: true,
-    //         success: "valid",
-    //         submitHandler: function(form) {
-    //             $(form).ajaxSubmit({
-				// 	type: 'post',
-				// 	url: "" ,	//提交给当前地址
-				// 	success: function(data){
-				// 		//判断返回值code
-				// 		if(data.code == '0'){
-				// 			//成功
-				// 			layer.msg(data.msg,{icon:1,time:2000},function(){
-				// 				var index = parent.layer.getFrameIndex(window.name);
-				// 				// parent.$('.btn-refresh').click();
-				// 				parent.location.href = parent.location.href;
-				// 				parent.layer.close(index);
-				// 			});
-				// 		}else{
-				// 			//失败
-				// 			layer.msg(data.msg,{icon:5,time:2000});
-				// 		}
-				// 	},
-	   //              error: function(XmlHttpRequest, textStatus, errorThrown){
-				// 		layer.msg('error!',{icon:5,time:2000});
-				// 	}
-				// });
-    //         }
-    //     });
     });
+
+    /*运动员-修改*/
+    // $(function(){
+    //     console.log($('.upload_img').value());
+    // });
+    // function member_del(obj,id){
+    //         $.ajax({
+    //         //     headers: {
+    //         //   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //         // },
+    //             type: 'POST',
+    //             url: "{{route('player_del')}}"+"?id="+id,
+    //             dataType: 'json',
+    //             success: function(data){
+    //                 $(obj).parents("tr").remove();
+    //                 layer.msg('已删除!',{icon:1,time:1000});
+    //             },
+    //             error:function(data) {
+    //                 console.log(data.msg);
+    //             },
+    // });
     </script>
     <!--/请在上方写此页面业务相关的脚本-->
 </body>
